@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Tester — dramaku.biz.id</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0f0f0f; color:#e0e0e0; font-family:monospace; padding:1.5rem; }
+h1 { color:#e63946; margin-bottom:0.3rem; font-size:1.2rem; }
+p { color:#666; font-size:0.8rem; margin-bottom:1.5rem; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-bottom:1.5rem; }
+@media(max-width:600px){ .grid{grid-template-columns:1fr} }
+.ep {
+  background:#1a1a1a; border:1px solid #2a2a2a;
+  border-radius:8px; overflow:hidden; cursor:pointer;
+}
+.ep-head {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0.7rem 1rem; background:#222;
+}
+.ep-path { color:#7ab3ff; font-size:0.78rem; }
+.ep-status { font-size:0.7rem; padding:0.18rem 0.5rem; border-radius:3px; }
+.ok  { background:#0d3b0d; color:#4afa4a; }
+.err { background:#3b0d0d; color:#fa4a4a; }
+.pending { background:#333; color:#aaa; }
+.ep-body {
+  padding:1rem; font-size:0.72rem; line-height:1.6;
+  color:#bbb; max-height:350px; overflow:auto;
+  white-space:pre-wrap; word-break:break-all;
+  display:none; border-top:1px solid #2a2a2a;
+}
+.ep-body.open { display:block; }
+.ep-head:hover { background:#2a2a2a; }
+.summary { background:#1a1a1a; border:1px solid #2a2a2a; border-radius:8px; padding:1rem; font-size:0.75rem; }
+.summary h3 { color:#f4c430; margin-bottom:0.5rem; }
+.key { color:#7ab3ff; }
+.arr { color:#4afa4a; }
+.warn { color:#f4c430; }
+</style>
+</head>
+<body>
+<h1>🔍 API Tester — api.dramaku.biz.id</h1>
+<p>Klik tiap endpoint untuk lihat response JSON mentahnya</p>
+
+<div class="grid" id="grid"></div>
+<div class="summary" id="summary"><h3>⏳ Menunggu hasil...</h3></div>
+
+<script>
+const BASE = 'https://api.dramaku.biz.id';
+const ENDPOINTS = [
+  ['GET /api/home',              '/api/home',            {}],
+  ['GET /api/recommend',         '/api/recommend',       {}],
+  ['GET /api/categories',        '/api/categories',      {}],
+  ['GET /api/vip',               '/api/vip',             {}],
+  ['GET /api/search',            '/api/search',          {q:'korea'}],
+  ['GET /api/detail/:bookId',    '/api/detail/1/v2',     {}],
+  ['GET /api/chapters/:bookId',  '/api/chapters/1',      {}],
+  ['GET /api/stream',            '/api/stream',          {}],
+];
+
+let results = [];
+
+function toggle(id) {
+  const el = document.getElementById('body_'+id);
+  if (el) el.classList.toggle('open');
+}
+
+async function testAll() {
+  const grid = document.getElementById('grid');
+  
+  ENDPOINTS.forEach(([label, path], i) => {
+    grid.innerHTML += `
+      <div class="ep" onclick="toggle(${i})">
+        <div class="ep-head">
+          <span class="ep-path">${label}</span>
+          <span class="ep-status pending" id="st_${i}">⏳</span>
+        </div>
+        <div class="ep-body" id="body_${i}">Memuat...</div>
+      </div>`;
+  });
+
+  for (let i = 0; i < ENDPOINTS.length; i++) {
+    const [label, path, params] = ENDPOINTS[i];
+    const u = new URL(BASE + path);
+    Object.entries(params).forEach(([k,v]) => u.searchParams.set(k,v));
+    
+    const st = document.getElementById('st_'+i);
+    const body = document.getElementById('body_'+i);
+
+    try {
+      const t0 = Date.now();
+      const res = await fetch(u);
+      const ms = Date.now() - t0;
+      const json = await res.json();
+      
+      st.textContent = `✓ ${res.status} (${ms}ms)`;
+      st.className = 'ep-status ok';
+
+      // Analyze structure
+      let analysis = `=== TOP-LEVEL KEYS ===\n${JSON.stringify(Object.keys(json))}\n\n`;
+      
+      // Find arrays
+      function findArrays(obj, path='root', depth=0) {
+        if (depth > 3) return;
+        if (Array.isArray(obj)) {
+          analysis += `[ARRAY] ${path} → ${obj.length} items\n`;
+          if (obj[0]) analysis += `  keys: ${JSON.stringify(Object.keys(obj[0]))}\n  sample: ${JSON.stringify(obj[0]).slice(0,200)}\n`;
+          return;
+        }
+        if (obj && typeof obj === 'object') {
+          for (const [k,v] of Object.entries(obj)) {
+            if (Array.isArray(v)) {
+              analysis += `[ARRAY] ${path}.${k} → ${v.length} items\n`;
+              if (v[0]) analysis += `  keys: ${JSON.stringify(Object.keys(v[0]))}\n  sample: ${JSON.stringify(v[0]).slice(0,250)}\n\n`;
+            } else if (v && typeof v==='object') {
+              findArrays(v, path+'.'+k, depth+1);
+            }
+          }
+        }
+      }
+      findArrays(json);
+      analysis += `\n=== FULL JSON ===\n${JSON.stringify(json, null, 2).slice(0,2000)}`;
+      body.textContent = analysis;
+
+      results.push({ label, status: res.status, ms, keys: Object.keys(json), json });
+    } catch(e) {
+      st.textContent = `✗ ERROR`;
+      st.className = 'ep-status err';
+      body.textContent = 'Error: ' + e.message;
+      body.classList.add('open');
+      results.push({ label, error: e.message });
+    }
+  }
+
+  // Summary
+  const ok = results.filter(r => !r.error);
+  const fail = results.filter(r => r.error);
+  document.getElementById('summary').innerHTML = `
+    <h3>📊 Summary</h3>
+    <p style="margin:0.5rem 0"><span class="arr">✓ ${ok.length} endpoint OK</span> &nbsp; <span style="color:#fa4a4a">✗ ${fail.length} error</span></p>
+    ${fail.length ? `<p class="warn" style="margin-top:0.5rem">⚠️ CORS error? Perlu proxy di Vercel/Netlify</p>` : `<p class="arr" style="margin-top:0.5rem">✅ API bisa diakses langsung! Tidak perlu proxy.</p>`}
+  `;
+}
+
+testAll();
+</script>
+</body>
+</html>
