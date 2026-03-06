@@ -4,507 +4,506 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kuhaku Drama</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
+
 <style>
-:root{--bg:#080810;--surface:#0f0f18;--surface2:#171724;--card:#1c1c2c;--red:#e63946;--red2:#ff4757;--gold:#f4c430;--teal:#2ec4b6;--text:#f2f2f5;--muted:#7a7a9a;--border:rgba(255,255,255,0.07);--radius:12px;--nav-h:64px}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden}
-::-webkit-scrollbar{width:3px;height:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
-#navbar{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nav-h);display:flex;align-items:center;gap:1.5rem;padding:0 2rem;background:linear-gradient(to bottom,rgba(8,8,16,.95),transparent);transition:background .4s,box-shadow .4s}
-#navbar.solid{background:rgba(8,8,16,.97);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border)}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--red);cursor:pointer;white-space:nowrap;flex-shrink:0}
-.nav-logo b{color:var(--text);font-weight:300}
-.nav-links{display:flex;gap:1.4rem;list-style:none;flex:1}
-.nav-links li{font-size:.83rem;font-weight:500;color:var(--muted);cursor:pointer;transition:color .2s;white-space:nowrap}
-.nav-links li:hover,.nav-links li.active{color:var(--text)}
-.nav-right{display:flex;gap:.8rem;align-items:center;margin-left:auto}
-.nav-sb{display:flex;align-items:center;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:all .3s}
-.nav-sb:focus-within{border-color:var(--red);background:rgba(230,57,70,.07);box-shadow:0 0 0 3px rgba(230,57,70,.12)}
-.nav-si{background:none;border:none;outline:none;color:var(--text);font-family:'Outfit',sans-serif;font-size:.82rem;padding:.5rem .8rem;width:170px}
-.nav-si::placeholder{color:var(--muted)}
-.nav-sbtn{background:none;border:none;color:var(--muted);padding:.45rem .7rem;cursor:pointer;font-size:.95rem;transition:color .2s}
-.nav-sbtn:hover{color:var(--red)}
-.hero{height:95vh;min-height:540px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 2rem 4rem}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:brightness(.45);transition:all 1.2s ease}
-.hero-vig{position:absolute;inset:0;background:linear-gradient(to right,rgba(8,8,16,.98) 20%,rgba(8,8,16,.4) 55%,transparent 100%),linear-gradient(to top,rgba(8,8,16,1) 0%,transparent 50%)}
-.hero-content{position:relative;z-index:2;max-width:560px}
-.hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:var(--red);color:#fff;font-size:.67rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:.28rem .8rem;border-radius:4px;margin-bottom:1rem}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:700;line-height:1.05;margin-bottom:.8rem;text-shadow:0 2px 20px rgba(0,0,0,.5)}
-.hero-meta{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin-bottom:.8rem}
-.hero-meta span{font-size:.8rem;color:var(--muted)}
-.hero-meta .star{color:var(--gold);font-weight:700}
-.hdot-sep{width:3px;height:3px;border-radius:50%;background:var(--muted);display:inline-block}
-.hero-desc{font-size:.87rem;line-height:1.75;color:rgba(242,242,245,.72);margin-bottom:1.7rem;max-width:450px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap}
-.hero-dots{position:absolute;bottom:2rem;right:2rem;z-index:3;display:flex;gap:.4rem;align-items:center}
-.h-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s}
-.h-dot.active{background:var(--red);width:22px;border-radius:3px}
-.btn{display:inline-flex;align-items:center;gap:.6rem;border:none;border-radius:9px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;white-space:nowrap}
-.btn-red{background:var(--red);color:#fff;padding:.82rem 2rem}
-.btn-red:hover{background:var(--red2);transform:translateY(-2px);box-shadow:0 10px 28px rgba(230,57,70,.4)}
-.btn-ghost{background:rgba(255,255,255,.1);color:var(--text);border:1px solid rgba(255,255,255,.18);padding:.82rem 1.6rem;backdrop-filter:blur(4px)}
-.btn-ghost:hover{background:rgba(255,255,255,.18)}
-.btn-sm{font-size:.8rem;padding:.5rem 1.1rem;border-radius:7px}
-.btn-outline{background:none;color:var(--text);border:1px solid var(--border);padding:.5rem 1.2rem;border-radius:7px}
-.btn-outline:hover{border-color:var(--red);color:var(--red)}
-.filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;gap:.3rem;align-items:center;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none;position:sticky;top:var(--nav-h);z-index:400}
-.filter-bar::-webkit-scrollbar{display:none}
-.filter-pill{flex-shrink:0;padding:.75rem 1.2rem;border-bottom:2px solid transparent;font-size:.82rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap;background:none;border-left:none;border-right:none;border-top:none;font-family:'Outfit',sans-serif}
-.filter-pill:hover{color:var(--text)}.filter-pill.active{color:var(--red);border-bottom-color:var(--red)}
-main{padding:2rem 2rem 5rem}
-.section{margin-bottom:3rem}
-.section-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.2rem}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700}
-.section-title em{color:var(--red);font-style:normal}
-.see-all{font-size:.78rem;color:var(--muted);cursor:pointer;background:none;border:none;font-family:'Outfit',sans-serif;transition:color .2s}
-.see-all:hover{color:var(--red)}
-.row-wrap{position:relative}
-.scroll-row{display:flex;gap:.9rem;overflow-x:auto;padding-bottom:6px;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none}
-.scroll-row::-webkit-scrollbar{display:none}
-.row-arr{position:absolute;top:35%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(8,8,16,.88);border:1px solid var(--border);backdrop-filter:blur(8px);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text);font-size:1.1rem;transition:all .2s;z-index:10;opacity:0}
-.row-wrap:hover .row-arr{opacity:1}.row-arr:hover{background:var(--red);border-color:var(--red)}
-.row-arr.left{left:-18px}.row-arr.right{right:-18px}
-.card{flex-shrink:0;width:160px;cursor:pointer;transition:transform .28s cubic-bezier(.34,1.4,.64,1)}
-.card:hover{transform:scale(1.07) translateY(-5px);z-index:20}
-.card-wide{width:240px}
-.card-img{position:relative;width:100%;aspect-ratio:2/3;border-radius:var(--radius);overflow:hidden;background:var(--surface2);box-shadow:0 4px 16px rgba(0,0,0,.5);transition:box-shadow .28s}
-.card-wide .card-img{aspect-ratio:16/10}
-.card:hover .card-img{box-shadow:0 16px 40px rgba(230,57,70,.3)}
-.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-.card:hover .card-img img{transform:scale(1.06)}
-.card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,16,.92) 0%,transparent 55%);opacity:0;transition:opacity .25s;display:flex;align-items:flex-end;justify-content:center;padding-bottom:.8rem}
-.card:hover .card-ov{opacity:1}
-.play-btn{width:44px;height:44px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 4px 16px rgba(230,57,70,.5);transform:scale(.8);transition:transform .2s}
-.card:hover .play-btn{transform:scale(1)}
-.badge{position:absolute;font-size:.62rem;font-weight:700;padding:.2rem .45rem;border-radius:4px}
-.badge-vip{top:.5rem;left:.5rem;background:linear-gradient(135deg,#f4c430,#e0a800);color:#000}
-.badge-rating{top:.5rem;right:.5rem;background:rgba(8,8,16,.75);color:var(--gold);backdrop-filter:blur(4px)}
-.card-info{padding:.55rem .1rem 0}
-.card-title{font-size:.78rem;font-weight:600;line-height:1.35;margin-bottom:.2rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card-sub{font-size:.68rem;color:var(--muted)}
-@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
-.skel{background:linear-gradient(90deg,var(--surface2) 25%,#222234 50%,var(--surface2) 75%);background-size:800px 100%;animation:shimmer 1.6s infinite linear}
-.drama-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}
-.page-header{padding:calc(var(--nav-h) + 2rem) 2rem 2rem;background:linear-gradient(to bottom,var(--surface),var(--bg))}
-.page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:.5rem}
-.page-header p{color:var(--muted);font-size:.88rem}
-.detail-hero{height:60vh;min-height:400px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 2rem 3rem}
-.detail-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.35)}
-.detail-hero-vig{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,16,1) 0%,rgba(8,8,16,.4) 60%,transparent 100%),linear-gradient(to right,rgba(8,8,16,.7) 0%,transparent 60%)}
-.detail-hero-inner{position:relative;z-index:2;display:flex;gap:2rem;align-items:flex-end}
-.detail-poster{width:130px;flex-shrink:0;border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.6)}
-.detail-poster img{width:100%;display:block}
-.detail-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:700;line-height:1.1;margin-bottom:.6rem}
-.detail-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
-.tag{font-size:.72rem;padding:.25rem .7rem;border:1px solid var(--border);border-radius:100px;color:var(--muted)}
-.detail-body{padding:2rem 2rem 4rem;max-width:900px}
-.detail-desc{font-size:.88rem;line-height:1.8;color:rgba(242,242,245,.75);margin-bottom:2rem}
-.detail-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.5rem}
-.eps-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;margin-bottom:1rem}
-.eps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.6rem}
-.ep-item{display:flex;gap:1rem;align-items:center;padding:.8rem 1rem;border-radius:9px;cursor:pointer;background:var(--surface2);transition:all .2s;border:1px solid transparent}
-.ep-item:hover{background:rgba(230,57,70,.1);border-color:rgba(230,57,70,.2)}
-.ep-num{width:30px;height:30px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--muted);flex-shrink:0;transition:all .2s}
-.ep-item:hover .ep-num{background:var(--red);color:#fff}
-.ep-info{flex:1;min-width:0}
-.ep-name{font-size:.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ep-meta{font-size:.7rem;color:var(--muted);margin-top:.15rem}
-.ep-play{width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;transition:transform .2s}
-.ep-item:hover .ep-play{transform:scale(1.1)}
-.player-wrap{background:#000;border-radius:12px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;box-shadow:0 8px 40px rgba(0,0,0,.6)}
-.player-wrap video{width:100%;height:100%}
-.player-ph{display:flex;flex-direction:column;gap:1rem;align-items:center;justify-content:center;color:var(--muted);font-size:.88rem}
-.search-big{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.4rem;font-size:1.05rem;font-family:'Outfit',sans-serif;color:var(--text);outline:none;transition:border-color .2s;margin-bottom:1.5rem}
-.search-big:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(230,57,70,.12)}
-.search-big::placeholder{color:var(--muted)}
-.pop-chips{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem}
-.chip{padding:.4rem 1rem;border-radius:100px;background:var(--surface2);border:1px solid var(--border);font-size:.78rem;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
-.chip:hover{background:var(--red);color:#fff;border-color:var(--red)}
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.8rem}
-.cat-card{aspect-ratio:3/2;border-radius:10px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.4rem;cursor:pointer;transition:all .2s}
-.cat-card:hover{border-color:var(--red);background:rgba(230,57,70,.08);transform:translateY(-2px)}
-.cat-card-name{font-size:.82rem;font-weight:600;text-align:center;padding:0 .3rem}
-.vip-banner{background:linear-gradient(135deg,#1a1200,#2a1f00);border:1px solid rgba(244,196,48,.3);border-radius:16px;padding:2rem;display:flex;gap:1.5rem;align-items:center;margin-bottom:2rem}
-.vip-text h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold)}
-.vip-text p{color:rgba(244,196,48,.7);font-size:.85rem;margin-top:.3rem}
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);padding:.75rem 1.5rem;border-radius:9px;font-size:.84rem;z-index:900;white-space:nowrap;backdrop-filter:blur(12px);transition:transform .3s cubic-bezier(.34,1.56,.64,1);background:var(--surface2);border:1px solid var(--border);color:var(--text)}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast-error{background:rgba(230,57,70,.15);border-color:rgba(230,57,70,.3);color:#ff8080}
-.toast-success{background:rgba(46,196,182,.15);border-color:rgba(46,196,182,.3);color:var(--teal)}
-#page-loader{display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:1rem;color:var(--muted)}
-.spin{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--red);animation:spin .7s linear infinite}
+:root{--red:#e50914;--bg:#141414;--bg2:#1a1a1a;--bg3:#222;--border:#333;--text:#fff;--muted:#999;--gold:#f5c518;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{height:4px;width:4px;}
+::-webkit-scrollbar-thumb{background:#555;border-radius:2px;}
+/* NAVBAR */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:800;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 4%;transition:background .4s;}
+#navbar.scrolled{background:var(--bg);}
+#navbar::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,20,20,.9) 0%,transparent 100%);pointer-events:none;}
+.nav-left{display:flex;align-items:center;gap:24px;position:relative;z-index:1;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;cursor:pointer;}
+.logo span{color:var(--red);}
+.nav-links{display:flex;gap:2px;}
+.nav-link{background:none;border:none;color:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;font-size:13px;padding:6px 12px;border-radius:4px;cursor:pointer;transition:.2s;}
+.nav-link:hover,.nav-link.active{color:#fff;}
+.nav-right{display:flex;gap:10px;align-items:center;position:relative;z-index:1;}
+.search-box{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:4px;transition:.3s;}
+.search-box:focus-within{background:rgba(0,0,0,.9);border-color:#fff;}
+.search-box input{background:none;border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:150px;}
+.search-box input::placeholder{color:rgba(255,255,255,.45);}
+.nav-wl{background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;padding:6px 14px;border-radius:4px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.2s;}
+.nav-wl:hover{background:rgba(255,255,255,.1);border-color:#fff;}
+.wl-badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:8px;}
+/* HERO */
+#heroSection{position:relative;height:88vh;min-height:460px;overflow:hidden;}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center 20%;opacity:0;transition:opacity 1.2s ease;}
+.hero-slide.active{opacity:1;}
+.hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,20,20,.96) 0%,rgba(20,20,20,.5) 50%,transparent 100%),linear-gradient(0deg,rgba(20,20,20,1) 0%,transparent 40%);}
+.hero-content{position:absolute;bottom:16%;left:4%;z-index:2;max-width:90%;}
+.hero-badge{display:inline-block;background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:2px;padding:3px 10px;border-radius:2px;margin-bottom:14px;text-transform:uppercase;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5vw,66px);line-height:.95;letter-spacing:1px;margin-bottom:12px;}
+.hero-meta{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+.hero-score{color:var(--gold);font-size:13px;font-weight:700;}
+.hero-year,.hero-eps{color:rgba(255,255,255,.7);font-size:12px;}
+.hero-overview{color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;margin-bottom:18px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.hero-btns{display:flex;gap:10px;}
+.btn-watch{background:#fff;color:#000;border:none;padding:12px 26px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s;}
+.btn-watch:hover{background:rgba(255,255,255,.8);}
+.btn-info{background:rgba(109,109,110,.65);color:#fff;border:none;padding:12px 22px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s;backdrop-filter:blur(4px);}
+.btn-info:hover{background:rgba(109,109,110,.45);}
+.hero-dots{position:absolute;bottom:14%;right:4%;z-index:3;display:flex;gap:6px;}
+.hdot{width:10px;height:3px;background:rgba(255,255,255,.3);border:none;border-radius:2px;cursor:pointer;transition:.3s;padding:0;}
+.hdot.active{background:#fff;width:22px;}
+.hero-grad{position:absolute;bottom:0;left:0;right:0;height:180px;z-index:1;background:linear-gradient(0deg,var(--bg) 0%,transparent 100%);pointer-events:none;}
+/* GENRE */
+.genre-bar{padding:10px 4% 24px;display:flex;gap:8px;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none;}
+.genre-bar::-webkit-scrollbar{display:none;}
+.g-chip{flex-shrink:0;background:var(--bg3);border:1px solid var(--border);color:rgba(255,255,255,.7);font-size:12px;padding:6px 16px;border-radius:20px;cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif;}
+.g-chip:hover{border-color:#fff;color:#fff;}
+.g-chip.active{background:var(--red);border-color:var(--red);color:#fff;}
+/* ROW */
+.row-sec{padding:0 4% 36px;}
+.row-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.row-ttl{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;}
+.row-more{color:#54b3d6;font-size:12px;font-weight:600;background:none;border:none;cursor:pointer;transition:.2s;}
+.row-more:hover{color:#fff;}
+.row-wrap{position:relative;}
+.row-track{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none;}
+.row-track::-webkit-scrollbar{display:none;}
+.rarrow{position:absolute;top:0;bottom:8px;width:52px;border:none;color:#fff;font-size:22px;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s;}
+.row-wrap:hover .rarrow{opacity:1;}
+.rarrow.left{left:0;background:linear-gradient(90deg,rgba(20,20,20,.95),transparent);}
+.rarrow.right{right:0;background:linear-gradient(270deg,rgba(20,20,20,.95),transparent);}
+/* CARD */
+.dcard{flex:0 0 160px;min-width:160px;background:var(--bg2);border-radius:6px;overflow:hidden;cursor:pointer;transition:transform .25s;position:relative;aspect-ratio:2/3;}
+.dcard:hover{transform:scale(1.08);z-index:10;box-shadow:0 8px 28px rgba(0,0,0,.8);}
+.dcard img{width:100%;height:100%;object-fit:cover;display:block;transition:.3s;}
+.dcard:hover img{filter:brightness(.3);}
+.chover{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:10px;opacity:0;transition:.25s;}
+.dcard:hover .chover{opacity:1;}
+.ch-title{font-size:11px;font-weight:700;line-height:1.3;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.ch-meta{display:flex;justify-content:space-between;margin-bottom:8px;}
+.ch-score{color:var(--gold);font-size:11px;font-weight:600;}
+.ch-year{color:rgba(255,255,255,.6);font-size:10px;}
+.ch-btns{display:flex;gap:6px;}
+.cplay{background:var(--red);color:#fff;border:none;width:30px;height:30px;border-radius:50%;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;}
+.cplay:hover{transform:scale(1.1);}
+.cwl{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);width:30px;height:30px;border-radius:50%;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;}
+.cwl:hover{background:rgba(255,255,255,.3);}
+.cwl.saved{background:rgba(229,9,20,.2);border-color:var(--red);color:var(--red);}
+.cskel{flex:0 0 160px;min-width:160px;aspect-ratio:2/3;background:linear-gradient(90deg,#1a1a1a 25%,#252525 50%,#1a1a1a 75%);background-size:200% 100%;border-radius:6px;animation:shimmer 1.5s infinite;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* GRID PAGES */
+.pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+.pg-grid .dcard{flex:none;min-width:unset;width:100%;}
+#searchPage,#watchlistPage,#categoryPage{display:none;padding:90px 4% 60px;}
+.page-ttl{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;margin-bottom:20px;}
+.empty-msg{color:var(--muted);text-align:center;padding:60px 20px;font-size:15px;}
+/* DETAIL */
+#detailModal{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;padding:20px;}
+#detailModal.open{display:flex;}
+.dbox{background:#181818;border-radius:8px;width:100%;max-width:820px;max-height:90vh;overflow-y:auto;position:relative;}
+.dbg{width:100%;aspect-ratio:16/9;background-size:cover;background-position:center;position:relative;border-radius:8px 8px 0 0;overflow:hidden;}
+.dbg::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#181818 0%,transparent 60%);}
+.dclose{position:absolute;top:14px;right:14px;z-index:5;background:rgba(30,30,30,.8);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.dclose:hover{background:#444;}
+.dbody{padding:0 28px 28px;}
+.dactions{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+.dplay{background:#fff;color:#000;border:none;padding:10px 24px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.dplay:hover{background:rgba(255,255,255,.8);}
+.dwl{background:rgba(109,109,110,.5);color:#fff;border:2px solid rgba(255,255,255,.35);padding:10px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s;}
+.dwl.saved{border-color:var(--red);color:var(--red);}
+.dtitle{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;margin-bottom:10px;}
+.dmeta{display:flex;gap:14px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+.dscore{color:var(--gold);font-size:13px;font-weight:700;}
+.dsub{color:rgba(255,255,255,.6);font-size:13px;}
+.dtags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.dtag{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-size:11px;padding:3px 10px;border-radius:3px;}
+.doverview{color:rgba(255,255,255,.8);font-size:14px;line-height:1.75;}
+/* PLAYER */
+#playerModal{position:fixed;inset:0;z-index:1100;background:#000;display:none;flex-direction:column;}
+#playerModal.open{display:flex;}
+.phdr{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:linear-gradient(180deg,rgba(0,0,0,.8) 0%,transparent 100%);}
+.pback{background:none;border:none;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;display:flex;align-items:center;gap:8px;transition:.2s;}
+.pback:hover{color:rgba(255,255,255,.7);}
+.phtitle{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;}
+.pvarea{flex:1;position:relative;background:#000;}
+#videoPlayer{width:100%;height:100%;display:none;object-fit:contain;}
+#iframePlayer{width:100%;height:100%;display:none;border:none;}
+.ploading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:#000;}
+.spinner{width:44px;height:44px;border:3px solid rgba(255,255,255,.15);border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-footer{background:var(--surface);border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--red)}
-footer p{font-size:.75rem;color:var(--muted)}
-.footer-links{display:flex;gap:1.5rem}
-.footer-links a{font-size:.78rem;color:var(--muted);cursor:pointer;text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--red)}
-#backTop{position:fixed;bottom:2rem;right:2rem;width:40px;height:40px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:1.1rem;z-index:300;opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(230,57,70,.4)}
+.plt{color:rgba(255,255,255,.5);font-size:13px;}
+.pbottom{background:rgba(0,0,0,.9);padding:14px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.peplabel{color:rgba(255,255,255,.5);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.peps{display:flex;gap:8px;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none;flex:1;}
+.peps::-webkit-scrollbar{display:none;}
+.ep-btn{flex-shrink:0;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:12px;font-weight:600;padding:6px 14px;border-radius:4px;cursor:pointer;transition:.15s;font-family:'DM Sans',sans-serif;}
+.ep-btn:hover{background:rgba(255,255,255,.2);color:#fff;}
+.ep-btn.active{background:var(--red);border-color:var(--red);color:#fff;}
+/* TOAST */
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(16px);background:rgba(25,25,25,.96);border:1px solid #3a3a3a;color:#fff;font-size:13px;padding:10px 20px;border-radius:6px;z-index:9999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 @media(max-width:640px){
-  #navbar{padding:0 1rem;gap:1rem}.nav-links{display:none}.nav-si{width:120px}
-  main{padding:1.5rem 1rem 4rem}.page-header{padding:calc(var(--nav-h) + 1.5rem) 1rem 1.5rem}
-  .hero{padding:0 1rem 3rem}.detail-hero{padding:0 1rem 2rem}
-  .detail-hero-inner{flex-direction:column;gap:1rem}.detail-poster{width:100px}
-  .detail-body{padding:1.5rem 1rem 3rem}
-  footer{padding:1.5rem 1rem;flex-direction:column;text-align:center}
+  #navbar{padding:0 3%;}
+  .nav-links{display:none;}
+  .hero-content{max-width:90%;bottom:18%;}
+  .hero-title{font-size:28px;}
+  .hero-content{max-width:85%;bottom:14%;}
+  .hero-overview{display:none;}
+  .row-sec,.genre-bar{padding-left:3%;padding-right:3%;}
+  .dcard{flex:0 0 120px;min-width:120px;}
+  .cskel{flex:0 0 120px;min-width:120px;}
+  .dbody{padding:0 14px 14px;}
+  .dtitle{font-size:26px;}
 }
 </style>
 </head>
 <body>
-<nav id="navbar">
-  <div class="nav-logo" onclick="nav('/')">KUHAKU <b>DRAMA</b></div>
-  <ul class="nav-links">
-    <li data-p="/" onclick="nav('/')">Beranda</li>
-    <li data-p="/recommend" onclick="nav('/recommend')">Rekomendasi</li>
-    <li data-p="/latest" onclick="nav('/latest')">Terbaru</li>
-    <li data-p="/categories" onclick="nav('/categories')">Kategori</li>
-    <li data-p="/vip" onclick="nav('/vip')">👑 VIP</li>
-    <li data-p="/search" onclick="nav('/search')">Cari</li>
-  </ul>
-  <div class="nav-right">
-    <div class="nav-sb">
-      <input class="nav-si" id="navSearch" type="text" placeholder="Cari drama..." onkeydown="if(event.key==='Enter'&&this.value.trim())nav('/search',{q:this.value.trim()})">
-      <button class="nav-sbtn" onclick="const q=document.getElementById('navSearch').value.trim();if(q)nav('/search',{q})">🔍</button>
+
+<div id="navbar">
+  <div class="nav-left">
+    <div class="logo" onclick="showHome()">KUHAKU <span>DRAMA</span></div>
+    <div class="nav-links">
+      <button class="nav-link active" id="nl-home" onclick="showHome()">Beranda</button>
+      <button class="nav-link" id="nl-vip" onclick="loadPageVIP()">VIP</button>
+      <button class="nav-link" id="nl-recom" onclick="loadPageRecom()">Rekomendasi</button>
     </div>
   </div>
-</nav>
-<div id="app"></div>
-<div class="toast" id="toast"></div>
-<button id="backTop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
-<script>
-const API_BASE='/api';
-async function apiFetch(path,params={}){
-  try{
-    const u=new URL(API_BASE+path,location.origin);
-    Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));
-    const r=await fetch(u,{headers:{'Accept':'application/json'}});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    return await r.json();
-  }catch(e){console.warn('[API]',path,e.message);return null;}
-}
-const API={
-  home:()=>apiFetch('/home'),
-  recommend:()=>apiFetch('/recommend'),
-  categories:()=>apiFetch('/categories'),
-  vip:()=>apiFetch('/vip'),
-  search:(q)=>apiFetch('/search',{q}),
-  category:(id)=>apiFetch('/category/'+id),
-  detail:(id)=>apiFetch('/detail/'+id+'/v2'),
-  chapters:(id)=>apiFetch('/chapters/'+id),
-  stream:(p)=>apiFetch('/stream',p),
-};
-function getList(d){
-  if(!d)return[];
-  if(Array.isArray(d))return d;
-  // Support {success,data:[...]} dari backend kuhakubox
-  if(d?.success===true&&Array.isArray(d?.data))return d.data;
-  if(d?.success===true&&d?.data&&typeof d.data==='object'){
-    // data bisa object dengan field array di dalamnya
-    for(const v of Object.values(d.data))if(Array.isArray(v)&&v.length)return v;
-  }
-  const tries=[d?.data?.list,d?.data?.dramas,d?.data?.items,d?.data?.results,d?.data?.chapters,d?.result?.list,d?.result?.dramas,d?.result,d?.list,d?.dramas,d?.items,d?.results,d?.chapters,d?.data];
-  for(const t of tries)if(Array.isArray(t)&&t.length)return t;
-  for(const v of Object.values(d)){if(Array.isArray(v)&&v.length)return v;if(v&&typeof v==='object'){try{for(const v2 of Object.values(v))if(Array.isArray(v2)&&v2.length)return v2;}catch(e){}}}
-  return[];
-}
-function gv(o,...keys){if(!o)return '';for(const k of keys)if(o[k]!=null&&o[k]!==''&&o[k]!==undefined)return o[k];return '';}
-function imgFb(url){return url||`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='240'%3E%3Crect width='160' height='240' fill='%231a1a28'/%3E%3Ctext x='50%25' y='50%25' fill='%237a7a9a' font-size='40' text-anchor='middle' dominant-baseline='middle'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E`;}
-function skel(n=5,wide=false){return Array(n).fill(0).map(()=>`<div style="flex-shrink:0;width:${wide?240:160}px"><div class="skel" style="aspect-ratio:${wide?'16/10':'2/3'};border-radius:12px"></div><div class="skel" style="height:10px;margin-top:8px;border-radius:4px"></div><div class="skel" style="height:8px;margin-top:5px;border-radius:4px;width:60%"></div></div>`).join('');}
-function cardHTML(d,wide=false){
-  const title=gv(d,'book_name','bookName','title','name','drama_title','judul')||'Untitled';
-  const cover=imgFb(gv(d,'thumb_url','thumbUrl','cover_vertical','cover_horizontal','cover','thumbnail','image','poster','pic'));
-  const rating=gv(d,'score','rating','star');const eps=gv(d,'total_episode','episode_count','episodes');
-  const year=gv(d,'release_year','year');const vip=d.is_vip||d.vip||d.needPay;
-  const id=gv(d,'book_id','bookId','id','drama_id');
-  return `<div class="card${wide?' card-wide':''}" onclick="nav('/detail',{id:'${id}',t:'${encodeURIComponent(title)}',c:'${encodeURIComponent(cover)}'})">
-    <div class="card-img">
-      <img src="${cover}" alt="${title}" loading="lazy" onerror="this.src=imgFb('')">
-      ${vip?'<span class="badge badge-vip">👑 VIP</span>':''}
-      ${rating?`<span class="badge badge-rating">★ ${parseFloat(rating).toFixed(1)}</span>`:''}
-      <div class="card-ov"><div class="play-btn">▶</div></div>
+  <div class="nav-right">
+    <div class="search-box">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      <input type="text" id="searchInput" placeholder="Cari drama..." onkeydown="if(event.key==='Enter')doSearch()">
     </div>
-    <div class="card-info"><div class="card-title">${title}</div><div class="card-sub">${[year,eps?eps+' Eps':''].filter(Boolean).join(' · ')}</div></div>
-  </div>`;
-}
-function makeRow(id,items,wide=false){
-  return `<div class="row-wrap">
-    <button class="row-arr left" onclick="document.getElementById('${id}').scrollBy({left:-640,behavior:'smooth'})">&#8249;</button>
-    <div class="scroll-row" id="${id}">${items&&items.length?items.map(d=>cardHTML(d,wide)).join(''):skel(5,wide)}</div>
-    <button class="row-arr right" onclick="document.getElementById('${id}').scrollBy({left:640,behavior:'smooth'})">&#8250;</button>
-  </div>`;
-}
-function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(type?' toast-'+type:'');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000);}
-function ftHTML(){return `<footer><div><div class="footer-logo">DramaBox</div><p>Nonton drama Asia kapan saja</p></div><div class="footer-links"><a onclick="nav('/')">Beranda</a><a onclick="nav('/categories')">Kategori</a><a onclick="nav('/search')">Cari</a><a onclick="nav('/vip')">VIP</a></div></footer>`;}
-function fillRow(id,items){const el=document.getElementById(id);if(!el)return;el.innerHTML=items&&items.length?items.map(d=>cardHTML(d)).join(''):'<p style="color:var(--muted);padding:1rem 0;font-size:.85rem">Tidak ada konten.</p>';}
-function getPath(){return(location.hash.slice(1)||'/').split('?')[0]||'/';}
-function getParams(){return Object.fromEntries(new URLSearchParams((location.hash.slice(1)||'').split('?')[1]||''));}
-function nav(path,params={}){const q=new URLSearchParams(params).toString();location.hash=q?path+'?'+q:path;}
-async function dispatch(){
-  const path=getPath(),p=getParams(),app=document.getElementById('app');
-  document.querySelectorAll('.nav-links li').forEach(li=>li.classList.toggle('active',li.dataset.p===path));
-  document.getElementById('navbar').classList.toggle('solid',path!=='/');
-  app.innerHTML='<div id="page-loader"><div class="spin"></div></div>';
-  scrollTo({top:0});
-  if(path==='/'||path==='')await renderHome(app);
-  else if(path==='/detail')await renderDetail(app,p);
-  else if(path==='/search')await renderSearch(app,p);
-  else if(path==='/categories')await renderCategories(app);
-  else if(path==='/category')await renderCategory(app,p);
-  else if(path==='/vip')await renderVip(app);
-  else if(path==='/latest')await renderLatest(app);
-  else if(path==='/recommend')await renderRecommend(app);
-  else app.innerHTML='<div style="text-align:center;padding:6rem 2rem"><div style="font-size:4rem">&#127916;</div><h2 style="font-family:\'Cormorant Garamond\',serif;margin:1rem 0">Halaman tidak ditemukan</h2><button class="btn btn-red" onclick="nav(\'/\')">← Beranda</button></div>';
-}
-window.addEventListener('hashchange',dispatch);
-window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').classList.toggle('solid',scrollY>30||getPath()!=='/');
-  document.getElementById('backTop').style.opacity=scrollY>400?'1':'0';
-},{passive:true});
+    <button class="nav-wl" onclick="showWatchlist()">&#9829; Watchlist <span class="wl-badge" id="wlCount">0</span></button>
+  </div>
+</div>
 
-// HOME
-let heroItems=[],heroCur=0,heroTimer=null;
-async function renderHome(app){
-  document.title='Kuhaku Drama';
-  app.innerHTML=`<section class="hero"><div class="hero-bg" id="heroBg"></div><div class="hero-vig"></div>
+<div id="homePage">
+  <div id="heroSection">
+    <div id="heroSlides"></div>
     <div class="hero-content">
-      <div class="hero-badge">&#10022; Pilihan Terbaik</div>
-      <h1 class="hero-title" id="heroTitle">Memuat...</h1>
-      <div class="hero-meta"><span class="star" id="heroRat"></span><span class="hdot-sep"></span><span id="heroYr"></span><span class="hdot-sep"></span><span id="heroEp"></span></div>
-      <p class="hero-desc" id="heroDesc">Menemukan drama terbaik...</p>
-      <div class="hero-btns"><button class="btn btn-red" id="heroW">&#9654; Tonton</button><button class="btn btn-ghost" id="heroI">&#8505; Info</button></div>
+      <div class="hero-badge">&#128293; Trending</div>
+      <div class="hero-title" id="heroTitle">Memuat...</div>
+      <div class="hero-meta">
+        <span class="hero-score" id="heroScore"></span>
+        <span class="hero-year" id="heroYear"></span>
+        <span class="hero-eps" id="heroEps"></span>
+      </div>
+      <div class="hero-overview" id="heroOverview"></div>
+      <div class="hero-btns">
+        <button class="btn-watch" onclick="heroPlay()">&#9654; Tonton</button>
+        <button class="btn-info" onclick="heroInfo()">&#9432; Info</button>
+      </div>
     </div>
-    <div class="hero-dots" id="heroDots"></div></section>
-    <div class="filter-bar" id="catBar"><button class="filter-pill active" onclick="this.parentNode.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">Semua</button></div>
-    <main>
-      <div class="section"><div class="section-hd"><h2 class="section-title">&#11088; <em>Rekomendasi</em></h2><button class="see-all" onclick="nav('/recommend')">Lihat Semua &#8250;</button></div>${makeRow('recRow',null)}</div>
-      <div class="section"><div class="section-hd"><h2 class="section-title">&#128226; Drama <em>Terbaru</em></h2><button class="see-all" onclick="nav('/latest')">Lihat Semua &#8250;</button></div>${makeRow('homeRow',null)}</div>
-      <div class="section"><div class="section-hd"><h2 class="section-title">&#128081; <em>VIP</em> Channel</h2><button class="see-all" onclick="nav('/vip')">Lihat Semua &#8250;</button></div>${makeRow('vipRow',null)}</div>
-      <div class="section"><div class="section-hd"><h2 class="section-title">&#128193; <em>Kategori</em></h2><button class="see-all" onclick="nav('/categories')">Semua &#8250;</button></div>
-        <div class="cat-grid" id="catGrid">${Array(8).fill(0).map(()=>'<div class="skel" style="aspect-ratio:3/2;border-radius:10px"></div>').join('')}</div>
+    <div class="hero-dots" id="heroDots"></div>
+    <div class="hero-grad"></div>
+  </div>
+  <div class="genre-bar" id="genreBar"></div>
+  <div id="homeRows"></div>
+</div>
+
+<div id="searchPage">
+  <div class="page-ttl" id="searchTitle">Hasil Pencarian</div>
+  <div class="pg-grid" id="searchGrid"></div>
+</div>
+
+<div id="watchlistPage">
+  <div class="page-ttl">Watchlist Saya</div>
+  <div class="pg-grid" id="wlGrid"></div>
+  <div class="empty-msg" id="wlEmpty" style="display:none">Belum ada drama di watchlist kamu &#9825;</div>
+</div>
+
+<div id="categoryPage">
+  <div class="page-ttl" id="catPageTitle">Drama</div>
+  <div class="pg-grid" id="catPageGrid"></div>
+</div>
+
+<div id="detailModal">
+  <div class="dbox">
+    <button class="dclose" onclick="closeDetail()">&#10005;</button>
+    <div class="dbg" id="detailBg"></div>
+    <div class="dbody">
+      <div class="dactions">
+        <button class="dplay" id="detailPlayBtn">&#9654; Tonton</button>
+        <button class="dwl" id="detailWlBtn">+ Watchlist</button>
       </div>
-    </main>${ftHTML()}`;
-  const[homeData,recData,vipData,catData]=await Promise.all([API.home(),API.recommend(),API.vip(),API.categories()]);
-  const homeItems=getList(homeData),recItems=getList(recData);
-  heroItems=(recItems.length?recItems:homeItems).slice(0,7);
-  if(heroItems.length){buildHeroDots(heroItems.length);goHero(0);}
-  fillRow('recRow',recItems);fillRow('homeRow',homeItems);fillRow('vipRow',getList(vipData));
-  const cats=getList(catData);
-  const icons=['🎭','💕','⚔️','😂','🔮','🌙','👑','🔥','💔','🎬','🌸','🏃'];
-  const bgs=['rgba(230,57,70,.15)','rgba(46,196,182,.15)','rgba(244,196,48,.15)','rgba(168,85,247,.15)','rgba(59,130,246,.15)','rgba(249,115,22,.15)','rgba(16,185,129,.15)','rgba(236,72,153,.15)'];
-  if(cats.length){
-    document.getElementById('catGrid').innerHTML=cats.slice(0,12).map((c,i)=>{
-      const name=gv(c,'name','category_name','genre','title')||'Kategori';
-      const id=gv(c,'id','category_id','genre_id')||i;
-      return `<div class="cat-card" style="background:${bgs[i%bgs.length]}" onclick="nav('/category',{id:'${id}',name:'${encodeURIComponent(name)}'})"><span style="font-size:1.8rem">${icons[i%icons.length]}</span><span class="cat-card-name">${name}</span></div>`;
-    }).join('');
-    const bar=document.getElementById('catBar');
-    cats.slice(0,10).forEach(c=>{
-      const name=gv(c,'name','category_name','genre','title')||'';const id=gv(c,'id','category_id','genre_id')||'';
-      const btn=document.createElement('button');btn.className='filter-pill';btn.textContent=name;
-      btn.onclick=()=>{bar.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));btn.classList.add('active');if(id)nav('/category',{id,name:encodeURIComponent(name)});};
-      bar.appendChild(btn);
+      <div class="dtitle" id="detailTitle"></div>
+      <div class="dmeta">
+        <span class="dscore" id="detailScore"></span>
+        <span class="dsub" id="detailYear"></span>
+        <span class="dsub" id="detailEps"></span>
+      </div>
+      <div class="dtags" id="detailTags"></div>
+      <div class="doverview" id="detailOverview"></div>
+    </div>
+  </div>
+</div>
+
+<div id="playerModal">
+  <div class="phdr">
+    <button class="pback" onclick="closePlayer()">&#8592; Kembali</button>
+    <div class="phtitle" id="playerTitle"></div>
+    <div></div>
+  </div>
+  <div class="pvarea">
+    <div class="ploading" id="playerLoading">
+      <div class="spinner"></div>
+      <div class="plt">Memuat video...</div>
+    </div>
+    <video id="videoPlayer" controls></video>
+    <iframe id="iframePlayer" allowfullscreen allow="autoplay"></iframe>
+  </div>
+  <div class="pbottom">
+    <div class="peplabel">Episode:</div>
+    <div class="peps" id="epsGrid"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const API='https://api.dramaku.biz.id';
+let watchlist=JSON.parse(localStorage.getItem('kuhaku_wl')||'[]');
+let heroItems=[],heroIdx=0,heroTimer=null;
+let currentChapters=[],currentBookId=null;
+const $=id=>document.getElementById(id);
+function saveWL(){localStorage.setItem('kuhaku_wl',JSON.stringify(watchlist));updateWLCount();}
+function updateWLCount(){$('wlCount').textContent=watchlist.length;}
+function isInWL(id){return watchlist.some(d=>String(d.book_id||d.id)===String(id));}
+function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function skels(n){return Array(n).fill('<div class="cskel"></div>').join('');}
+function purl(u){return (u&&u.startsWith('http'))?u:'data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300'%3E%3Crect fill='%231a1a1a' width='200' height='300'/%3E%3Ctext fill='%23444' font-size='12' x='100' y='155' text-anchor='middle'%3ENo Image%3C/text%3E%3C/svg%3E';}
+function gf(d,...k){for(const x of k){if(d&&d[x]!==undefined&&d[x]!==null&&d[x]!=='')return d[x];}return '';}
+function getId(d){return gf(d,'book_id','bookId','id','drama_id','dramaId');}
+function getTitle(d){return gf(d,'book_name','bookName','name','title','drama_name','dramaName');}
+function getThumb(d){return purl(gf(d,'thumb_url','thumbUrl','cover','poster','image','img','thumbnail','pic','thumb'));}
+function getScore(d){const s=gf(d,'score','rating','rate','point');return s?'&#11088; '+parseFloat(s).toFixed(1):'';}
+function getYear(d){const y=gf(d,'year','release_year','releaseYear','release_time','pub_time');return y?String(y).slice(0,4):'';}
+function getDesc(d){return gf(d,'introduction','overview','description','intro','synopsis','summary');}
+function toggleWL(id,title,thumb){
+  const i=watchlist.findIndex(d=>String(d.book_id||d.id)===String(id));
+  if(i>-1){watchlist.splice(i,1);showToast('Dihapus dari watchlist');}
+  else{watchlist.push({book_id:id,book_name:title,thumb_url:thumb});showToast('Ditambahkan ke watchlist');}
+  saveWL();
+}
+function renderCard(d){
+  const id=getId(d),title=getTitle(d),thumb=getThumb(d),score=getScore(d),year=getYear(d),saved=isInWL(id);
+  if(!id)return '';
+  if(!window._dbg){window._dbg=true;console.log('[KuhakuDrama] Sample:',JSON.stringify(d,null,2));}
+  const t=title.replace(/['"]/g,' ');
+  return '<div class="dcard" onclick="openDetail(''+id+'')"><img src="'+thumb+'" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300'%3E%3Crect fill='%231a1a1a' width='200' height='300'/%3E%3Ctext fill='%23444' font-size='12' x='100' y='155' text-anchor='middle'%3ENo Image%3C/text%3E%3C/svg%3E'"><div class="chover"><div class="ch-title">'+title+'</div><div class="ch-meta"><span class="ch-score">'+score+'</span><span class="ch-year">'+year+'</span></div><div class="ch-btns"><button class="cplay" onclick="event.stopPropagation();openPlayer(''+id+'',''+t+'')">&#9654;</button><button class="cwl'+(saved?' saved':'')+'" onclick="event.stopPropagation();cardToggleWL(''+id+'',''+t+'',''+thumb+'',this)">'+(saved?'&#9829;':'+')+'</button></div></div></div>';
+}
+function cardToggleWL(id,title,thumb,btn){
+  toggleWL(id,title,thumb);
+  const s=isInWL(id);
+  btn.className='cwl'+(s?' saved':'');
+  btn.innerHTML=s?'&#9829;':'+';
+}
+function buildHero(items){
+  heroItems=items.slice(0,8);
+  $('heroSlides').innerHTML=heroItems.map((d,i)=>'<div class="hero-slide'+(i===0?' active':'')+'" style="background-image:url(''+getThumb(d)+'')"></div>').join('');
+  $('heroDots').innerHTML=heroItems.map((_,i)=>'<button class="hdot'+(i===0?' active':'')+'" onclick="goHero('+i+')"></button>').join('');
+  setHeroContent(0);
+  clearInterval(heroTimer);
+  heroTimer=setInterval(()=>goHero((heroIdx+1)%heroItems.length),6000);
+}
+function goHero(idx){
+  heroIdx=idx;
+  document.querySelectorAll('.hero-slide').forEach((s,i)=>s.classList.toggle('active',i===idx));
+  document.querySelectorAll('.hdot').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  setHeroContent(idx);
+}
+function setHeroContent(idx){
+  const d=heroItems[idx];if(!d)return;
+  $('heroTitle').textContent=getTitle(d)||'Untitled';
+  $('heroScore').innerHTML=getScore(d);
+  $('heroYear').textContent=getYear(d);
+  const eps=gf(d,'chapter_count','chapterCount','total_episodes','totalEpisodes');
+  $('heroEps').textContent=eps?eps+' Ep':'';
+  $('heroOverview').textContent=getDesc(d)||'';
+}
+function heroPlay(){const d=heroItems[heroIdx];if(d)openPlayer(getId(d),getTitle(d));}
+function heroInfo(){const d=heroItems[heroIdx];if(d)openDetail(getId(d));}
+function makeRow(title,items,rid,catId){
+  const more=catId?'<button class="row-more" onclick="showCatPage(''+catId+'',''+title+'')">Lihat Semua &#8250;</button>':'';
+  return '<div class="row-sec"><div class="row-hdr"><div class="row-ttl">'+title+'</div>'+more+'</div><div class="row-wrap"><button class="rarrow left" onclick="scrollRow('r'+rid+'',-1)">&#8249;</button><div class="row-track" id="r'+rid+'">'+items.map(renderCard).join('')+'</div><button class="rarrow right" onclick="scrollRow('r'+rid+'',1)">&#8250;</button></div></div>';
+}
+function scrollRow(id,dir){const el=$(id);if(el)el.scrollBy({left:dir*500,behavior:'smooth'});}
+async function loadHome(){
+  $('homeRows').innerHTML='<div class="row-sec"><div style="color:var(--muted);font-size:13px;padding:10px 0">Memuat drama...</div></div>';
+  const [hr,rr,vr]=await Promise.allSettled([
+    fetch(API+'/api/home').then(r=>r.json()),
+    fetch(API+'/api/recommend').then(r=>r.json()),
+    fetch(API+'/api/vip').then(r=>r.json()),
+  ]);
+  const hl=hr.status==='fulfilled'?(hr.value.data||hr.value.result||hr.value||[]):[];
+  const rl=rr.status==='fulfilled'?(rr.value.data||rr.value.result||rr.value||[]):[];
+  const vl=vr.status==='fulfilled'?(vr.value.data||vr.value.result||vr.value||[]):[];
+  if(hl.length)buildHero(hl);
+  let rows='';
+  if(hl.length)rows+=makeRow('Drama Terbaru',hl,'home',null);
+  if(rl.length)rows+=makeRow('Rekomendasi Untuk Kamu',rl,'recom',null);
+  if(vl.length)rows+=makeRow('VIP / Theater',vl,'vip',null);
+  $('homeRows').innerHTML=rows||'<p style="color:var(--muted);padding:40px 4%">Gagal memuat konten.</p>';
+  loadGenreBar();
+  loadCatRows();
+}
+async function loadGenreBar(){
+  try{
+    const r=await fetch(API+'/api/categories');const d=await r.json();
+    const cats=d.data||d.result||d||[];
+    $('genreBar').innerHTML=cats.slice(0,20).map(c=>'<button class="g-chip" onclick="showCatPage(''+(c.id||c.category_id)+'',''+(c.name||c.category_name)+'')">'+(c.name||c.category_name)+'</button>').join('');
+  }catch(e){}
+}
+async function loadCatRows(){
+  try{
+    const r=await fetch(API+'/api/categories');const d=await r.json();
+    const cats=(d.data||d.result||d||[]).slice(0,8);
+    const res=await Promise.allSettled(cats.map(c=>fetch(API+'/api/category/'+(c.id||c.category_id)).then(r=>r.json())));
+    res.forEach((x,i)=>{
+      if(x.status!=='fulfilled')return;
+      const cat=cats[i],name=cat.name||cat.category_name,catId=cat.id||cat.category_id;
+      const list=x.value.data||x.value.result||x.value||[];
+      if(!list.length)return;
+      const div=document.createElement('div');
+      div.innerHTML=makeRow(name,list,'cat'+catId,catId);
+      $('homeRows').appendChild(div.firstChild);
     });
+  }catch(e){}
+}
+async function doSearch(){
+  const q=$('searchInput').value.trim();if(!q)return;
+  showPage('searchPage');
+  $('searchTitle').textContent='Hasil: '+q;
+  $('searchGrid').innerHTML=skels(12);
+  try{
+    const r=await fetch(API+'/api/search?keyword='+encodeURIComponent(q));
+    const d=await r.json();const l=d.data||d.result||d||[];
+    $('searchGrid').innerHTML=l.length?l.map(renderCard).join(''):'<p style="color:var(--muted)">Tidak ada hasil.</p>';
+  }catch(e){$('searchGrid').innerHTML='<p style="color:var(--muted)">Gagal mencari.</p>';}
+}
+async function showCatPage(catId,name){
+  showPage('categoryPage');$('catPageTitle').textContent=name;$('catPageGrid').innerHTML=skels(12);
+  try{
+    const r=await fetch(API+'/api/category/'+catId);const d=await r.json();const l=d.data||d.result||d||[];
+    $('catPageGrid').innerHTML=l.length?l.map(renderCard).join(''):'<p style="color:var(--muted)">Tidak ada drama.</p>';
+  }catch(e){$('catPageGrid').innerHTML='<p style="color:var(--muted)">Gagal memuat.</p>';}
+}
+async function loadPageVIP(){showPage('categoryPage');$('catPageTitle').textContent='VIP / Theater';$('catPageGrid').innerHTML=skels(12);try{const r=await fetch(API+'/api/vip');const d=await r.json();const l=d.data||d.result||d||[];$('catPageGrid').innerHTML=l.map(renderCard).join('');}catch(e){}}
+async function loadPageRecom(){showPage('categoryPage');$('catPageTitle').textContent='Rekomendasi';$('catPageGrid').innerHTML=skels(12);try{const r=await fetch(API+'/api/recommend');const d=await r.json();const l=d.data||d.result||d||[];$('catPageGrid').innerHTML=l.map(renderCard).join('');}catch(e){}}
+async function openDetail(bookId){
+  $('detailModal').classList.add('open');
+  $('detailTitle').textContent='Memuat...';
+  $('detailBg').style.backgroundImage='';
+  ['detailScore','detailYear','detailEps','detailOverview'].forEach(id=>$(id).textContent='');
+  $('detailTags').innerHTML='';
+  try{
+    const r=await fetch(API+'/api/detail/'+bookId+'/v2');const data=await r.json();
+    const d=data.data||data.result||data;
+    const id=getId(d)||bookId,title=getTitle(d)||'Untitled',thumb=getThumb(d);
+    const score=getScore(d),year=getYear(d);
+    const eps=gf(d,'chapter_count','chapterCount','total_episodes','totalEpisodes');
+    const tags=String(gf(d,'tags','genres','category_names','categoryNames','categories')||'').split(',').filter(Boolean);
+    $('detailBg').style.backgroundImage="url('"+thumb+"')";
+    $('detailTitle').textContent=title;
+    $('detailScore').innerHTML=score;
+    $('detailYear').textContent=year;
+    $('detailEps').textContent=eps?eps+' Episode':'';
+    $('detailTags').innerHTML=tags.slice(0,5).map(t=>'<span class="dtag">'+t.trim()+'</span>').join('');
+    $('detailOverview').textContent=getDesc(d)||'Tidak ada deskripsi.';
+    const saved=isInWL(id);
+    const wb=$('detailWlBtn');
+    wb.className='dwl'+(saved?' saved':'');
+    wb.textContent=saved?'Tersimpan':'+ Watchlist';
+    wb.onclick=()=>{toggleWL(id,title,thumb);const s=isInWL(id);wb.className='dwl'+(s?' saved':'');wb.textContent=s?'Tersimpan':'+ Watchlist';};
+    $('detailPlayBtn').onclick=()=>{closeDetail();openPlayer(id,title);};
+  }catch(e){$('detailTitle').textContent='Gagal memuat.';}
+}
+function closeDetail(){$('detailModal').classList.remove('open');}
+function exUrl(obj){
+  if(!obj)return '';
+  if(typeof obj==='string'&&obj.startsWith('http'))return obj;
+  const keys=['videoPath','video_path','url','stream_url','video_url','play_url','m3u8_url','mp4_url','src','source','link','href','path'];
+  for(const k of keys){if(obj[k]&&typeof obj[k]==='string'&&obj[k].startsWith('http'))return obj[k];}
+  if(obj.data&&typeof obj.data==='object')return exUrl(obj.data);
+  if(obj.result&&typeof obj.result==='object')return exUrl(obj.result);
+  return '';
+}
+async function openPlayer(bookId,title){
+  currentBookId=bookId;currentChapters=[];
+  $('playerModal').classList.add('open');
+  $('playerTitle').textContent=title||'';
+  resetVid();$('epsGrid').innerHTML='';
+  try{
+    let list=[];
+    try{const r=await fetch(API+'/download/'+bookId);const d=await r.json();const raw=d.data||d.result||d||[];list=Array.isArray(raw)?raw:Object.values(raw);}catch(e){}
+    if(!list.length){const r=await fetch(API+'/api/chapters/'+bookId);const d=await r.json();const raw=d.data||d.result||d||[];list=Array.isArray(raw)?raw:[];}
+    currentChapters=list;
+    $('epsGrid').innerHTML=list.map((ch,i)=>'<button class="ep-btn'+(i===0?' active':'')+'" onclick="playEp('+i+',this)">Ep '+(ch.chapter_num||ch.ep_num||(ch.chapterIndex!=null?ch.chapterIndex+1:i+1))+'</button>').join('');
+    if(list.length)playEp(0,$('epsGrid').querySelector('.ep-btn'));
+    else resetVid(false);
+  }catch(e){resetVid(false);}
+}
+function resetVid(loading=true){
+  if(window._hls){window._hls.destroy();window._hls=null;}
+  const vid=$('videoPlayer');vid.style.display='none';vid.src='';
+  const ifr=$('iframePlayer');ifr.style.display='none';ifr.src='';
+  const pl=$('playerLoading');pl.style.display=loading?'flex':'none';
+  if(loading)pl.innerHTML='<div class="spinner"></div><div class="plt">Memuat video...</div>';
+}
+async function playEp(idx,btn){
+  document.querySelectorAll('.ep-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const ch=currentChapters[idx];if(!ch)return;
+  resetVid();
+  const direct=exUrl(ch);if(direct){playStream(direct);return;}
+  const bookId=currentBookId,chapterId=ch.chapter_id||ch.chapterId||ch.id;
+  const epNum=ch.chapter_num||ch.ep_num||(ch.chapterIndex!=null?ch.chapterIndex+1:idx+1);
+  let found='',lastR=null;
+  const eps=[API+'/api/stream?bookId='+bookId+'&episode='+epNum,API+'/api/stream?bookId='+bookId+'&chapterId='+chapterId,API+'/api/stream?bookId='+bookId+'&ep='+epNum];
+  for(const ep of eps){try{const r=await fetch(ep);const d=await r.json();lastR=d;found=exUrl(d);if(found)break;}catch(e){}}
+  if(!found){try{const r=await fetch(API+'/download/'+bookId);const d=await r.json();const raw=d.data||d.result||d||[];const arr=Array.isArray(raw)?raw:Object.values(raw);const m=arr[idx]||arr.find(c=>String(c.chapter_id||c.chapterId||c.id)===String(chapterId));if(m){found=exUrl(m);lastR=m;}if(arr.length)currentChapters=arr;}catch(e){}}
+  playStream(found,found?null:lastR);
+}
+function playStream(url,dbg){
+  const pl=$('playerLoading'),vid=$('videoPlayer'),ifr=$('iframePlayer');
+  pl.style.display='none';vid.style.display='none';ifr.style.display='none';
+  if(!url){
+    pl.style.display='flex';
+    pl.innerHTML='<div style="text-align:center;max-width:420px;padding:20px"><div style="font-size:36px;margin-bottom:12px">&#128546;</div><div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:6px">Stream tidak tersedia</div><div style="color:var(--muted);font-size:12px;margin-bottom:16px">Episode ini mungkin dikunci atau belum tersedia.</div>'+(dbg?'<details style="text-align:left;background:#1a1a1a;border:1px solid #333;border-radius:6px;padding:10px"><summary style="color:#666;font-size:11px;cursor:pointer">Debug response API</summary><pre style="color:#4f4;font-size:10px;margin-top:8px;overflow:auto;max-height:140px;white-space:pre-wrap;word-break:break-all">'+JSON.stringify(dbg,null,2)+'</pre></details>':'')+'</div>';
+    return;
   }
+  if(url.includes('.m3u8')){
+    if(window.Hls&&Hls.isSupported()){
+      if(window._hls)window._hls.destroy();
+      window._hls=new Hls({enableWorker:false});
+      window._hls.loadSource(url);window._hls.attachMedia(vid);
+      window._hls.on(Hls.Events.MANIFEST_PARSED,()=>vid.play().catch(()=>{}));
+      window._hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal)playStream('');});
+    }else if(vid.canPlayType('application/vnd.apple.mpegurl')){vid.src=url;vid.play().catch(()=>{});}
+    else{ifr.src=url;ifr.style.display='block';return;}
+    vid.style.display='block';
+  }else if(url.match(/\.(mp4|webm|ogg)(\?|$)/i)){
+    vid.src=url;vid.style.display='block';vid.play().catch(()=>{});
+  }else{ifr.src=url;ifr.style.display='block';}
 }
-function buildHeroDots(n){const wrap=document.getElementById('heroDots');if(!wrap)return;wrap.innerHTML=Array(n).fill(0).map((_,i)=>`<div class="h-dot${i===0?' active':''}" onclick="goHero(${i})"></div>`).join('');}
-function goHero(i){
-  if(!heroItems.length)return;
-  heroCur=((i%heroItems.length)+heroItems.length)%heroItems.length;
-  const d=heroItems[heroCur];
-  const title=gv(d,'book_name','bookName','title','name','drama_title')||'Kuhaku Drama';
-  const desc=gv(d,'introduction','description','synopsis','summary')||'Klik untuk lihat detail.';
-  const cover=imgFb(gv(d,'thumb_url','thumbUrl','cover_horizontal','coverHorizontalUrl','cover','thumbnail','poster'));
-  const rating=gv(d,'score','rating');const eps=gv(d,'total_episode','episode_count');
-  const year=gv(d,'release_year','year');const id=gv(d,'id','book_id','drama_id');
-  const bg=document.getElementById('heroBg');if(bg)bg.style.backgroundImage=`url('${cover}')`;
-  const set=(elId,v)=>{const e=document.getElementById(elId);if(e)e.textContent=v;};
-  set('heroTitle',title);set('heroDesc',desc);
-  set('heroRat',rating?'★ '+parseFloat(rating).toFixed(1):'');
-  set('heroYr',year||'');set('heroEp',eps?eps+' Episode':'');
-  const go=()=>nav('/detail',{id,t:encodeURIComponent(title),c:encodeURIComponent(cover)});
-  const wBtn=document.getElementById('heroW'),iBtn=document.getElementById('heroI');
-  if(wBtn)wBtn.onclick=go;if(iBtn)iBtn.onclick=go;
-  document.querySelectorAll('.h-dot').forEach((dot,j)=>dot.classList.toggle('active',j===heroCur));
-  clearInterval(heroTimer);heroTimer=setInterval(()=>goHero(heroCur+1),7000);
+function closePlayer(){$('playerModal').classList.remove('open');resetVid(false);}
+function showWatchlist(){
+  showPage('watchlistPage');
+  if(!watchlist.length){$('wlGrid').innerHTML='';$('wlEmpty').style.display='';}
+  else{$('wlEmpty').style.display='none';$('wlGrid').innerHTML=watchlist.map(renderCard).join('');}
 }
-
-// DETAIL
-async function renderDetail(app,p){
-  const id=p.id,title=p.t?decodeURIComponent(p.t):'Drama',cover=p.c?decodeURIComponent(p.c):'';
-  document.title=title+' — Kuhaku Drama';
-  app.innerHTML=`<div class="detail-hero">
-    <div class="detail-hero-bg" id="dBg" style="background-image:url('${imgFb(cover)}')"></div>
-    <div class="detail-hero-vig"></div>
-    <div class="detail-hero-inner">
-      <div class="detail-poster"><img id="dPoster" src="${imgFb(cover)}" alt="${title}" onerror="this.src=imgFb('')"></div>
-      <div>
-        <h1 class="detail-title" id="dTitle">${title}</h1>
-        <div class="detail-tags" id="dTags"><div class="skel" style="height:24px;width:80px;border-radius:100px"></div></div>
-        <div class="detail-actions"><button class="btn btn-red" id="dWatchBtn">&#9203; Memuat...</button><button class="btn btn-ghost" onclick="history.back()">← Kembali</button></div>
-      </div>
-    </div></div>
-  <div class="detail-body">
-    <p class="detail-desc" id="dDesc"><span class="skel" style="display:block;height:14px;border-radius:4px;margin-bottom:8px"></span><span class="skel" style="display:block;height:14px;border-radius:4px;width:70%"></span></p>
-    <div id="playerSection" style="display:none"><div class="player-wrap" id="playerWrap"></div></div>
-    <div class="eps-title" id="epsTitleEl">Episode</div>
-    <div class="eps-grid" id="epsGrid">${Array(6).fill(0).map(()=>'<div class="skel" style="height:60px;border-radius:9px"></div>').join('')}</div>
-    <div class="section" style="margin-top:3rem"><div class="section-hd"><h2 class="section-title">&#127919; Drama <em>Terkait</em></h2></div>${makeRow('relRow',null)}</div>
-  </div>${ftHTML()}`;
-  const[detRes,relRes,chapRes]=await Promise.all([API.detail(id),API.recommend(),API.chapters(id)]);
-  // Backend return {success:true, data:{...drama fields...}}
-  const dd=(detRes?.success===true)?detRes.data:(detRes?.data||detRes?.result||detRes||{});
-  const info=dd.drama||dd.detail||dd.info||dd.book||dd;
-  const realTitle=gv(info,'book_name','bookName','title','name','drama_title')||title;
-  const desc=gv(info,'introduction','description','synopsis','summary')||'Tidak ada sinopsis.';
-  const rating=gv(info,'score','rating');const year=gv(info,'release_year','year');const status=gv(info,'status','drama_status');
-  const tags=info.tags||info.tagList||info.genres||info.categories||[];
-  const hCover=imgFb(gv(info,'thumb_url','thumbUrl','cover_horizontal','coverHorizontalUrl')||cover);
-  const vCover=imgFb(gv(info,'thumb_url','thumbUrl','cover_vertical','coverVerticalUrl')||cover);
-  document.getElementById('dBg').style.backgroundImage=`url('${hCover}')`;
-  document.getElementById('dPoster').src=vCover;
-  document.getElementById('dTitle').textContent=realTitle;
-  document.getElementById('dDesc').textContent=desc;
-  document.title=realTitle+' — Kuhaku Drama';
-  const tagArr=Array.isArray(tags)?tags.map(t=>t.tagName||t.name||t.genre||String(t)).filter(Boolean):[];
-  const metaTags=[rating&&'★ '+parseFloat(rating).toFixed(1),year&&'📅 '+year,status&&'📺 '+status].filter(Boolean);
-  document.getElementById('dTags').innerHTML=[...metaTags,...tagArr.slice(0,4)].map(t=>`<span class="tag">${t}</span>`).join('');
-  const eps=getList(chapRes);
-  const sorted=[...eps].sort((a,b)=>(+(a.chapterIndex??a.episode_no??a.num??0))-(+(b.chapterIndex??b.episode_no??b.num??0)));
-  const epsGrid=document.getElementById('epsGrid');
-  document.getElementById('epsTitleEl').textContent=`Episode (${sorted.length})`;
-  if(sorted.length){
-    epsGrid.innerHTML=sorted.map(ep=>{
-      const no=gv(ep,'episode_no','episode','ep','num','order','number')||'?';
-      const epName=gv(ep,'chapterName','name','title','episode_title')||'Episode '+no;
-      const epId=gv(ep,'chapterId','chapter_id','id','episode_no','episode_id')||no;
-      const url=gv(ep,'videoPath','video_path','play_url','playUrl','video_url','stream_url','url');
-      return `<div class="ep-item" onclick="playEp('${encodeURIComponent(url)}','${encodeURIComponent(epName)}','${epId}','${id}')">
-        <div class="ep-num">${no}</div>
-        <div class="ep-info"><div class="ep-name">${epName}</div><div class="ep-meta">Tap untuk tonton</div></div>
-        <div class="ep-play">&#9654;</div></div>`;
-    }).join('');
-
-    const ep1=sorted[0],ep1Url=gv(ep1,'videoPath','video_path','play_url','playUrl','video_url','stream_url','url'),ep1Id=gv(ep1,'chapterId','chapter_id','id','episode_no','episode_id');
-    document.getElementById('dWatchBtn').textContent='▶ Tonton Episode 1';
-    document.getElementById('dWatchBtn').onclick=()=>playEp(encodeURIComponent(ep1Url),encodeURIComponent('Episode 1'),ep1Id,id);
-  }else{
-    epsGrid.innerHTML='<p style="color:var(--muted);font-size:.85rem">Episode tidak ditemukan.</p>';
-    document.getElementById('dWatchBtn').textContent='▶ Tonton';
-    document.getElementById('dWatchBtn').onclick=()=>toast('Episode tidak tersedia','error');
-  }
-  fillRow('relRow',getList(relRes));
+function showPage(pid){
+  ['homePage','searchPage','watchlistPage','categoryPage'].forEach(p=>$(p).style.display=p===pid?'':'none');
+  ['nl-home','nl-vip','nl-recom'].forEach(id=>$(id).classList.remove('active'));
+  if(pid==='homePage')$('nl-home').classList.add('active');
+  if(pid!=='homePage')window.scrollTo(0,0);
 }
-async function playEp(urlEnc,nameEnc,epId,bookId){
-  let url=decodeURIComponent(urlEnc);const name=decodeURIComponent(nameEnc);
-  if(!url||url==='undefined'){
-    toast('Mengambil stream...','');
-    const res=await API.stream({bookId,episode:epId});
-    const data=res?.data||res?.result||res||{};
-    url=gv(data,'videoPath','video_path','stream_url','url','play_url','hls_url','mp4_url','streamUrl');
-  }
-  const sec=document.getElementById('playerSection'),wrap=document.getElementById('playerWrap');
-  sec.style.display='block';sec.scrollIntoView({behavior:'smooth'});
-  if(url&&url!=='undefined'){
-    wrap.innerHTML=`<video controls autoplay playsinline style="width:100%;height:100%;background:#000"><source src="${url}" type="${url.includes('.m3u8')?'application/x-mpegURL':'video/mp4'}"></video>`;
-    toast('Memutar: '+name,'success');
-  }else{
-    wrap.innerHTML='<div class="player-ph"><div style="font-size:3rem">🎬</div><p>Stream tidak tersedia</p><button class="btn btn-outline btn-sm" onclick="document.getElementById(\'playerSection\').style.display=\'none\'">Tutup</button></div>';
-    toast('Stream tidak tersedia','error');
-  }
-}
-
-// SEARCH
-let searchTimer=null;
-async function renderSearch(app,p){
-  const initQ=p.q||'';document.title='Cari — Kuhaku Drama';
-  app.innerHTML=`<div class="page-header"><h1>🔍 Cari Drama</h1><p>Temukan drama favorit kamu</p></div>
-    <main>
-      <input class="search-big" id="searchBig" type="text" placeholder="Ketik judul drama..." value="${initQ}" autocomplete="off">
-      <div id="popWrap">
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:.8rem;font-weight:500">🔥 Coba cari:</p>
-        <div class="pop-chips">${['Romance','Action','Comedy','Thriller','Historical','Fantasy','Modern','Horror'].map(k=>`<button class="chip" onclick="doSearch('${k}')">${k}</button>`).join('')}</div>
-      </div>
-      <div id="searchHead" style="display:none;margin-bottom:1rem">
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700" id="searchHTitle"></h2>
-        <p style="font-size:.8rem;color:var(--muted);margin-top:.3rem" id="searchHCount"></p>
-      </div>
-      <div class="drama-grid" id="searchGrid"></div>
-    </main>${ftHTML()}`;
-  const inp=document.getElementById('searchBig');
-  inp.addEventListener('input',e=>{clearTimeout(searchTimer);if(e.target.value.length>=2)searchTimer=setTimeout(()=>doSearch(e.target.value),600);});
-  inp.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
-  if(initQ)doSearch(initQ);else setTimeout(()=>inp.focus(),100);
-}
-async function doSearch(q){
-  q=(q||'').trim();if(!q)return;
-  document.getElementById('popWrap').style.display='none';
-  document.getElementById('searchHead').style.display='block';
-  document.getElementById('searchHTitle').textContent='Hasil untuk "'+q+'"';
-  document.getElementById('searchHCount').textContent='Mencari...';
-  document.getElementById('searchGrid').innerHTML=skel(8);
-  const data=await API.search(q),items=getList(data);
-  document.getElementById('searchHCount').textContent=items.length+' hasil';
-  document.getElementById('searchGrid').innerHTML=items.length?items.map(d=>cardHTML(d)).join(''):`<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:3rem">🔍</div><p>Tidak ada hasil untuk "<b>${q}</b>"</p></div>`;
-}
-
-// CATEGORIES
-async function renderCategories(app){
-  document.title='Kategori — Kuhaku Drama';
-  app.innerHTML=`<div class="page-header"><h1>🗂 Semua Kategori</h1><p>Pilih genre drama favoritmu</p></div>
-    <main><div class="cat-grid" id="allCats">${Array(12).fill(0).map(()=>'<div class="skel" style="aspect-ratio:3/2;border-radius:10px"></div>').join('')}</div></main>${ftHTML()}`;
-  const data=await API.categories(),cats=getList(data);
-  const icons=['🎭','💕','⚔️','😂','🔮','🌙','👑','🔥','💔','🎬','🌸','🏃','🧸','🌊','🦋','🎵','🏯','🌺','👻','🦸'];
-  const bgs=['rgba(230,57,70,.15)','rgba(46,196,182,.15)','rgba(244,196,48,.15)','rgba(168,85,247,.15)','rgba(59,130,246,.15)','rgba(249,115,22,.15)','rgba(16,185,129,.15)','rgba(236,72,153,.15)'];
-  document.getElementById('allCats').innerHTML=cats.map((c,i)=>{
-    const name=gv(c,'name','category_name','genre','title')||'Kategori';
-    const id=gv(c,'id','category_id','genre_id')||i;
-    const count=gv(c,'total','count','drama_count');
-    return `<div class="cat-card" style="background:${bgs[i%bgs.length]}" onclick="nav('/category',{id:'${id}',name:'${encodeURIComponent(name)}'})"><span style="font-size:2rem">${icons[i%icons.length]}</span><span class="cat-card-name">${name}</span>${count?`<span style="font-size:.68rem;color:var(--muted)">${count} drama</span>`:''}</div>`;
-  }).join('')||'<p style="color:var(--muted)">Tidak ada kategori.</p>';
-}
-
-// CATEGORY
-async function renderCategory(app,p){
-  const id=p.id,name=p.name?decodeURIComponent(p.name):'Kategori';
-  document.title=name+' — Kuhaku Drama';
-  app.innerHTML=`<div class="page-header"><h1>${name}</h1><p>Drama dalam kategori ini</p></div>
-    <main><div class="drama-grid" id="catItems">${skel(12)}</div></main>${ftHTML()}`;
-  const data=await API.category(id),items=getList(data);
-  document.getElementById('catItems').innerHTML=items.length?items.map(d=>cardHTML(d)).join(''):'<p style="color:var(--muted);padding:2rem 0">Tidak ada drama.</p>';
-}
-
-// VIP
-async function renderVip(app){
-  document.title='VIP — Kuhaku Drama';
-  app.innerHTML=`<div class="page-header"><h1>👑 VIP Channel</h1><p>Konten eksklusif premium</p></div>
-    <main><div class="vip-banner"><div style="font-size:3rem">👑</div><div class="vip-text"><h2>Konten VIP Premium</h2><p>Drama eksklusif, kualitas terbaik, tanpa iklan</p></div></div>
-    <div class="drama-grid" id="vipItems">${skel(10)}</div></main>${ftHTML()}`;
-  const data=await API.vip(),items=getList(data);
-  document.getElementById('vipItems').innerHTML=items.length?items.map(d=>cardHTML(d)).join(''):'<p style="color:var(--muted);padding:2rem 0">Tidak ada konten VIP.</p>';
-}
-
-// LATEST
-async function renderLatest(app){
-  document.title='Terbaru — Kuhaku Drama';
-  app.innerHTML=`<div class="page-header"><h1>🆕 Drama Terbaru</h1><p>Update drama paling baru</p></div>
-    <main><div class="drama-grid" id="latestItems">${skel(12)}</div></main>${ftHTML()}`;
-  const data=await API.home(),items=getList(data);
-  document.getElementById('latestItems').innerHTML=items.length?items.map(d=>cardHTML(d)).join(''):'<p style="color:var(--muted);padding:2rem 0">Tidak ada drama.</p>';
-}
-
-// RECOMMEND
-async function renderRecommend(app){
-  document.title='Rekomendasi — Kuhaku Drama';
-  app.innerHTML=`<div class="page-header"><h1>⭐ Rekomendasi</h1><p>Drama pilihan untukmu</p></div>
-    <main><div class="drama-grid" id="recItems">${skel(12)}</div></main>${ftHTML()}`;
-  const data=await API.recommend(),items=getList(data);
-  document.getElementById('recItems').innerHTML=items.length?items.map(d=>cardHTML(d)).join(''):'<p style="color:var(--muted);padding:2rem 0">Tidak ada rekomendasi.</p>';
-}
-
-dispatch();
+function showHome(){showPage('homePage');$('searchInput').value='';}
+window.addEventListener('scroll',()=>$('navbar').classList.toggle('scrolled',window.scrollY>80));
+$('detailModal').addEventListener('click',e=>{if(e.target===$('detailModal'))closeDetail();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();closePlayer();}});
+updateWLCount();
+loadHome();
 </script>
 </body>
 </html>
